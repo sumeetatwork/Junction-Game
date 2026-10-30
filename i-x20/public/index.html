@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Junction — Card Game</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .start-menu.leaving{animation:leave .38s ease forwards}@keyframes leave{to{opacity:0;transform:scale(.97);filter:blur(3px)}}
+    .setup-title{font-size:clamp(3.3rem,8vw,5.2rem);letter-spacing:-.07em}.setup-card{width:min(510px,100%);margin:0 auto;text-align:left}.setup-card>label,.field-title{display:block;font-size:.72rem;letter-spacing:.1em;font-weight:800;margin:0 0 8px}.setup-choice{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:20px 0}.choice{border:2px solid var(--ink);border-radius:12px;padding:13px 10px;background:#fff;cursor:pointer;text-align:left;display:grid;grid-template-columns:28px 1fr;gap:0 8px}.choice.active{background:#e9e5ff;box-shadow:3px 3px 0 var(--ink)}.choice-icon{grid-row:span 2;font-size:1.35rem;align-self:center}.choice b{font-size:.77rem}.choice small{font-size:.68rem;color:#686d81;margin-top:3px}.host-options,.join-options{background:#f2f0e7;border-radius:12px;padding:15px;margin-bottom:17px}.player-counts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.count{border:2px solid var(--ink);border-radius:9px;background:#fff;padding:10px 0;font-weight:800;font-size:1rem;cursor:pointer}.count.active{background:var(--mint);box-shadow:2px 2px 0 var(--ink)}.count-help{font-size:.75rem;color:#656b7e;line-height:1.4;margin:11px 0 0}.code-input{letter-spacing:.14em;text-align:center;text-transform:uppercase;font-size:1rem}.setup-submit{margin-top:0}@media(max-width:460px){.setup-card{padding:19px}.choice{grid-template-columns:1fr;text-align:center}.choice-icon{grid-row:auto}.choice b,.choice small{display:block}.setup-choice{gap:7px}}
+  </style>
+</head>
+<body>
+  <main class="app-shell">
+    <section class="start-menu" id="start-menu">
+      <div class="top-mark"><span class="spark">✦</span> CLASSIC CARD CHAOS <span class="spark">✦</span></div>
+      <div class="menu-card-stack left-stack" aria-hidden="true"><span>🍋</span></div>
+      <div class="menu-card-stack right-stack" aria-hidden="true"><span>🦊</span></div>
+      <p class="eyebrow">A fast card game for friends</p>
+      <h1>JUNCTION<span>!</span></h1>
+      <p class="menu-tagline">Match four. Call it first. Get your hand down!</p>
+      <div class="menu-actions">
+        <button class="menu-play" id="open-lobby">PLAY WITH FRIENDS <span>→</span></button>
+        <button class="menu-how" id="show-rules">HOW TO PLAY <span>?</span></button>
+      </div>
+      <p class="menu-footnote">3–6 players &nbsp;•&nbsp; Best played with quick hands</p>
+      <article class="rules-popover" id="rules-popover" hidden>
+        <button class="close-rules" id="close-rules" aria-label="Close">×</button>
+        <p class="panel-label">HOW TO PLAY JUNCTION</p>
+        <div class="rule-list">
+          <div class="rule"><span>1</span><p><b>Everyone gets four cards.</b> The deck contains sets of four identical cards, such as four Moon Mango cards or four Rocket Raccoon cards.</p></div>
+          <div class="rule"><span>2</span><p><b>Choose one unwanted card.</b> At the same time, every player passes one card to the player on their right and receives one from the player on their left.</p></div>
+          <div class="rule"><span>3</span><p><b>Keep passing quickly.</b> Your aim is to collect four cards with the same name. Watch what arrives and decide which card to give away next.</p></div>
+          <div class="rule"><span>4</span><p><b>Call “Junction!”</b> The moment you have four matching cards, press the Junction button and put your hand down.</p></div>
+          <div class="rule"><span>5</span><p><b>Stack your hands!</b> Everyone else races to put their hand on the Junction caller’s hand. The order decides second, third, and later places.</p></div>
+        </div>
+        <p class="rules-note">Tip: Do not reveal which set you are collecting. Passing cards that look useless can confuse the other players.</p>
+      </article>
+    </section>
+
+    <section class="lobby" id="lobby" hidden>
+      <button class="back-link" id="back-to-menu">← Back to menu</button>
+      <p class="eyebrow">A fast card game for friends</p>
+      <h1 class="setup-title">READY TO<br>PLAY<span>?</span></h1>
+      <p class="intro">Enter your name, then host a private room or join one your friend has created.</p>
+
+      <article class="panel setup-card">
+        <label for="player-name">YOUR PLAYER NAME</label>
+        <input id="player-name" placeholder="What should friends call you?" maxlength="16">
+        <div class="setup-choice" id="setup-choice">
+          <button class="choice active" data-choice="host"><span class="choice-icon">♛</span><b>HOST A GAME</b><small>Create a private room</small></button>
+          <button class="choice" data-choice="join"><span class="choice-icon">↪</span><b>JOIN A GAME</b><small>Use a friend’s room code</small></button>
+        </div>
+        <section class="host-options" id="host-options">
+          <p class="field-title">HOW MANY PLAYERS?</p>
+          <div class="player-counts" id="player-counts"><button class="count active" data-count="3">3</button><button class="count" data-count="4">4</button><button class="count" data-count="5">5</button><button class="count" data-count="6">6</button></div>
+          <p class="count-help"><b id="count-label">3</b> players will join this room. You can start when everybody arrives.</p>
+        </section>
+        <section class="join-options" id="join-options" hidden>
+          <p class="field-title">PRIVATE ROOM CODE</p>
+          <input id="private-code" class="code-input" aria-label="Private room code" placeholder="E.G. H7K2QP" maxlength="6">
+          <p class="count-help">Ask the host for the six-character room code.</p>
+        </section>
+        <button class="primary setup-submit" id="create-room">CREATE PRIVATE ROOM <span>→</span></button>
+        <p class="note">Rooms are private · 3–6 players</p>
+      </article>
+    </section>
+
+    <section class="game" id="game" hidden>
+      <header class="game-header">
+        <button class="logo-button" id="back-to-lobby" aria-label="Back to lobby">JUNCTION<span>!</span></button>
+        <div class="room-code"><small>ROOM CODE</small><b>H7K2QP</b><button aria-label="Copy room code">⧉</button></div>
+        <div class="timer"><span>PASS IN</span><b>12</b><i>s</i></div>
+      </header>
+
+      <div class="table-layout">
+        <aside class="players panel">
+          <p class="panel-label">PLAYERS <span>4 / 6</span></p>
+          <div class="player me"><div class="avatar purple">S</div><b>You</b><small>4 cards</small><i>YOU</i></div>
+          <div class="player"><div class="avatar yellow">A</div><b>Anika</b><small>4 cards</small></div>
+          <div class="player"><div class="avatar blue">R</div><b>Rahul</b><small>4 cards</small></div>
+          <div class="player"><div class="avatar coral">M</div><b>Meera</b><small>4 cards</small></div>
+        </aside>
+
+        <section class="table">
+          <div class="turn-banner"><span class="pulse"></span>Choose one card to pass to <b>Anika</b></div>
+          <div class="direction"><span>YOU</span><b>→</b><span>ANIKA</span></div>
+          <div class="cards" id="cards">
+            <button class="card card-mango" data-card="Moon Mango"><span class="card-corner">01</span><span class="art">🥭</span><b>MOON<br>MANGO</b><span class="card-corner bottom">✦</span></button>
+            <button class="card card-rocket" data-card="Rocket Raccoon"><span class="card-corner">02</span><span class="art">🦝</span><b>ROCKET<br>RACCOON</b><span class="card-corner bottom">✦</span></button>
+            <button class="card card-mango" data-card="Moon Mango"><span class="card-corner">01</span><span class="art">🥭</span><b>MOON<br>MANGO</b><span class="card-corner bottom">✦</span></button>
+            <button class="card card-mango" data-card="Moon Mango"><span class="card-corner">01</span><span class="art">🥭</span><b>MOON<br>MANGO</b><span class="card-corner bottom">✦</span></button>
+          </div>
+          <div class="game-actions"><button class="pass-card" id="pass-card" disabled>Pick a card to pass</button><button class="junction" id="junction">JUNCTION!</button></div>
+          <p class="table-tip">You have <b>3 Moon Mango</b> cards. One more makes a Junction!</p>
+        </section>
+      </div>
+    </section>
+  </main>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>

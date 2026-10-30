@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: junction-card-game
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
